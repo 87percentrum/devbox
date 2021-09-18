@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-system("mkdir logs config config/nginx-sites www") if !Dir.exist?("logs")
+system("mkdir logs config config/nginx config/php www") if !Dir.exist?("logs")
 
 Vagrant.configure("2") do |config|
 
@@ -19,9 +19,10 @@ Vagrant.configure("2") do |config|
 
   config.vm.box = "hashicorp/bionic64"
 
-  config.vm.synced_folder "./config", "/srv/config"
-  config.vm.synced_folder "./www", "/srv/www"
+  config.vm.synced_folder "./www", "/var/www"
   config.vm.synced_folder "./logs", "/var/log"
+  config.vm.synced_folder "./config/nginx", "/etc/nginx"
+  config.vm.synced_folder "./config/php", "/etc/php"
 
   config.vm.provision "shell", path: "./provision.sh"
 end
